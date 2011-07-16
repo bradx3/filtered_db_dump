@@ -1,15 +1,48 @@
 = filtered_db_dump
 
-Description goes here.
+Filtered DB Dump allows for easy dumping of a trimmed version of a mysql database.
+
+Rather than copy an entire production database for development or staging environments, you can set up table_filters and column_filters that restrict the data dumped.
+
+== Table Filters
+
+Table filters will filter out all data from a table. If you're not interested in the data for a table, pass in the table name as a table filter.
+
+== Column Filters
+
+Column filters are a bit tricker. Let's say you've got a few models: Users and Cars. Users have many cars, to the cars table has a field called "user_id".
+
+If you pass in column filters:
+    column_filters = { :users => [ 1234, 7654 ] }
+
+Two rows from the 'users' table will be dumped - the row with id 1234, and the row with id 7654.
+In addition, all rows from the 'cars' table will be dumped that have a user_id of 1234 or 7654.
+
+Currently, that's as far as it will go. If, say Cars had many Doors, we wouldn't automatically get all doors belonging to users 1234 or 7654 included.
+One way to achieve that would be (assuming you're using ActiveRecord):
+    user_ids = [ 1234, 7654 ]
+    column_filters = {
+      :users => user_ids,
+      :doors => User.find(user_ids).doors.map(&:id)
+    }
+
+or even:
+
+    user_ids = [ 1234, 7654 ]
+    column_filters = {
+      :users => user_ids,
+      :cars => User.find(user_ids).cars.map(&:id)
+    }
+
+Which is a bit of a mess, but hopefully not *too* bad.
 
 == Contributing to filtered_db_dump
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
 * Fork the project
 * Start a feature/bugfix branch
 * Commit and push until you are happy with your contribution
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
 == Copyright
