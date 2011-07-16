@@ -1,3 +1,5 @@
+require "filtered_db_dump/version"
+
 module FilteredDbDump
   class Dumper
 
@@ -78,4 +80,5 @@ module FilteredDbDump
     end
 
   end
+
 end
