@@ -10,7 +10,7 @@ Table filters will filter out all data from a table. If you're not interested in
 
 == Column Filters
 
-Column filters are a bit tricker. Let's say you've got a few models: Users and Cars. Users have many cars, to the cars table has a field called "user_id".
+Column filters are a bit tricker. Let's say you've got a few models: Users and Cars. Users have many cars, so the cars table has a field called "user_id".
 
 If you pass in column filters:
     column_filters = { :users => [ 1234, 7654 ] }
