@@ -7,6 +7,7 @@ Rather than copy an entire production database for development or staging enviro
 == Table Filters
 
 Table filters will filter out all data from a table. If you're not interested in the data for a table, pass in the table name as a table filter.
+    table_filters = [ :users, :purchases ]
 
 == Column Filters
 
