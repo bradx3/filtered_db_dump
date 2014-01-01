@@ -9,6 +9,7 @@ module FilteredDbDump
     attr_accessor :column_filters
     attr_accessor :table_filters
     attr_accessor :post_dump_command
+    attr_accessor :file_extension
 
     # Expected options:
     # :output_dir: A folder to dump filtered sql files into. This folder will be emptied before running the dump.
@@ -22,6 +23,8 @@ module FilteredDbDump
       self.db_connection = options[:db_connection]
       self.column_filters = (options[:column_filters] || {}).stringify_keys!
       self.table_filters = (options[:table_filters] || []).map(&:to_s)
+
+      self.file_extension = options[:file_extension] || ".sql"
     end
 
     # Run the dump. Call this method for a good time.
@@ -43,7 +46,7 @@ module FilteredDbDump
         cmd += "| #{post_dump_command}"
       end
 
-      cmd += " > #{ output_dir }/#{ table }.sql"
+      cmd += " > #{ output_dir }/#{ table }#{file_extension}"
 
       system(cmd)
     end
