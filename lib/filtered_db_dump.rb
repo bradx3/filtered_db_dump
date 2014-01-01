@@ -24,6 +24,7 @@ module FilteredDbDump
       self.column_filters = (options[:column_filters] || {}).stringify_keys!
       self.table_filters = (options[:table_filters] || []).map(&:to_s)
 
+      self.post_dump_command = options[:post_dump_command]
       self.file_extension = options[:file_extension] || ".sql"
     end
 
